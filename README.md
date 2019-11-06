@@ -10,3 +10,5 @@ to install fron GitHub:
 
 <code> install_github("Tsylvester/DNAtoAA") </code>
 
+<code> library("DNAtoAA") </code>
+
