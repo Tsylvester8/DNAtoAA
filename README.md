@@ -8,7 +8,7 @@ to install fron GitHub:
 
 <code> library("devtools") </code>
 
-<code> install_github("Tsylvester/DNAtoAA") </code>
+<code> install_github("Tsylvester8/DNAtoAA") </code>
 
 <code> library("DNAtoAA") </code>
 
