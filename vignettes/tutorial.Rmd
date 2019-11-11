@@ -1,0 +1,222 @@
+---
+title: "DNAtoAA Tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndeEntry{DNAtoAA Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+This is a package that can be used to translate DNA or RNA sequences into amino acid sequence. It does not support with ambiguity codes. This will only work with nuclear genomes of eukaryotes.
+
+# Installation 
+This R package can be installed directly from GitHub using the follwing code. The devtools installatoin step can be skipped if you allready have installed that package
+
+```{r eval= FALSE}
+install.packages("devtools")
+
+library("devtools")
+
+install_github("Tsylvester8/DNAtoAA", build_vignettes = T)
+
+library("DNAtoAA")
+
+```
+
+
+
+```{r echo=FALSE}
+ConvertToAminoAcid <- function(x){
+  if(nchar(x) %% 3 != 0){
+    warning("The DNA/RNA string is not a multiple of 3")
+  }
+  
+  input <- toupper(x) # get the upper case of the input string
+  
+  input <- gsub("T", "U", input)
+  
+  
+  codonTable <- matrix(data = NA,
+                       nrow = 64,
+                       ncol = 2)
+  
+  num.codons <- nchar(input) / 3
+  
+  
+  pos.codon <- seq(from = 1, by = 3, length.out = num.codons)
+  
+  AAseq <- c()
+  
+  
+  codonTable[,1] <- c("UUU",
+                      "UUC",
+                      "UUA",
+                      "UUG",
+                      "UCU",
+                      "UCC",
+                      "UCA",
+                      "UCG",
+                      "UAU",
+                      "UAC",
+                      "UAA",
+                      "UAG",
+                      "UGU",
+                      "UGC",
+                      "UGA",
+                      "UGG",
+                      "CUU",
+                      "CUC",
+                      "CUA",
+                      "CUG",
+                      "CCU",
+                      "CCC",
+                      "CCA",
+                      "CCG",
+                      "CAU",
+                      "CAC",
+                      "CAA",
+                      "CAG",
+                      "CGU",
+                      "CGC",
+                      "CGA",
+                      "CGG",
+                      "AUU",
+                      "AUC",
+                      "AUA",
+                      "AUG",
+                      "ACU",
+                      "ACC",
+                      "ACA",
+                      "ACG",
+                      "AAU",
+                      "AAC",
+                      "AAA",
+                      "AAG",
+                      "AGU",
+                      "AGC",
+                      "AGA",
+                      "AGG",
+                      "GUU",
+                      "GUC",
+                      "GUA",
+                      "GUG",
+                      "GCU",
+                      "GCC",
+                      "GCA",
+                      "GCG",
+                      "GAU",
+                      "GAC",
+                      "GAA",
+                      "GAG",
+                      "GGU",
+                      "GGC",
+                      "GGA",
+                      "GGG")
+  
+  codonTable[,2] <- c("F",
+                      "F",
+                      "L",
+                      "L",
+                      "S",
+                      "S",
+                      "S",
+                      "S",
+                      "Y",
+                      "Y",
+                      "*",
+                      "*",
+                      "C",
+                      "C",
+                      "*",
+                      "W",
+                      "L",
+                      "L",
+                      "L",
+                      "L",
+                      "P",
+                      "P",
+                      "P",
+                      "P",
+                      "H",
+                      "H",
+                      "Q",
+                      "Q",
+                      "R",
+                      "R",
+                      "R",
+                      "R",
+                      "I",
+                      "I",
+                      "I",
+                      "M",
+                      "T",
+                      "T",
+                      "T",
+                      "T",
+                      "N",
+                      "N",
+                      "K",
+                      "K",
+                      "S",
+                      "S",
+                      "R",
+                      "R",
+                      "V",
+                      "V",
+                      "V",
+                      "V",
+                      "A",
+                      "A",
+                      "A",
+                      "A",
+                      "D",
+                      "D",
+                      "E",
+                      "E",
+                      "G",
+                      "G",
+                      "G",
+                      "G")
+  
+  for(i in pos.codon){
+    
+    codon <- substr(input, i, i+2)
+    
+    if(codon %in% codonTable[,1]){
+      hit <- which(codon == codonTable[,1])
+      
+      AAseq <- c(AAseq, codonTable[hit, 2])
+    }
+  }
+  return(AAseq)
+}
+
+```
+
+
+# Example code
+
+The code below will generate a statement which we feel is important for all scientists to agree with
+
+```{r}
+#library(DNAtoAA)
+
+# create a DNA sequence
+data <- "ATGtacacagctaaaGAacggauuuctacacatGAAGgtagagaggccacagagagcacguag"
+
+# translate 
+ConvertToAminoAcid(data)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
