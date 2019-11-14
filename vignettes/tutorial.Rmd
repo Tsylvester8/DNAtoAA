@@ -199,6 +199,7 @@ ConvertToAminoAcid <- function(x){
 The code below will generate a statement which we feel is important for all scientists to agree with
 
 ```{r}
+# load the package
 #library(DNAtoAA)
 
 # create a DNA sequence
